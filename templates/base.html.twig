@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>
+        {% block title %}E-Vanga
+        {% endblock %}
+    </title>
+    <!-- Inclure les fichiers CSS de Bootstrap 5.3 via le CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+            crossorigin="anonymous"></script>
+    <!-- Ajouter les polices Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Rendre le footer collé en bas de la page */
+        html,
+        body {
+            height: 100%;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+
+        main {
+            flex: 1;
+        }
+
+        /* Appliquer la police "Montserrat" pour le texte "E-Vanga" */
+        .navbar-brand {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+        }
+
+        /* Appliquer les couleurs du drapeau de Madagascar au texte "E-Vanga" */
+        .navbar-brand {
+            background: linear-gradient(to right, #FFD700, #FFD700 33.33%, #FF3D00 33.33%, #FF3D00 66.66%, #034EA2 66.66%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        /* Style de l'avatar */
+        .avatar-container {
+            font-size: 100px;
+            color: #007bff; /* Couleur bleue similaire à celle de Facebook */
+            margin-bottom: 20px;
+        }
+
+        /* Style de l'avatar pour qu'il ressemble à un cercle */
+        .avatar-container i {
+            border-radius: 50%;
+            background-color: #f8f9fa; /* Couleur de fond */
+            padding: 10px; /* Espacement interne pour créer le cercle */
+        }
+
+        /* Style des informations de l'utilisateur */
+        h1 {
+            font-size: 30px;
+            font-weight: bold;
+            color: #000; /* Couleur du texte noir */
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 18px;
+            color: #333; /* Couleur du texte gris */
+        }
+
+        .qty {
+            max-width: 2rem;
+        }
+    </style>
+</head>
+<body>
+<header>
+
+    <div class="navbar navbar-top navbar-expand-lg bg-white fixed-top">
+        <a class="navbar-brand" href="#">E-Vanga</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                    {# Utilisateur connecté, afficher l'avatar et le nom de l'utilisateur #}
+                    <li class="nav-item">
+                        <a href="{{ path('app_user_info') }}"
+                           class="me-1 border rounded py-1 px-3 nav-link d-flex align-items-center">
+                            <i class="fas fa-user-alt m-1 me-md-2"></i>
+                            <p class="d-none d-md-block mb-0">{{ user.nom }}</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        {# Utiliser l'icône de chariot d'achat de Font Awesome et ouvrir le modal #}
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#cartModal"
+                           class="border rounded py-1 px-3 nav-link d-flex align-items-center" target="_blank">
+                            <i class="fas fa-shopping-cart m-1 me-md-2"></i>
+                            <p class="d-none d-md-block mb-0">Mon panier</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="border rounded py-1 px-3 nav-link d-flex align-items-center btn-outline-danger"
+                           href="{{ path('app_logout') }}">
+                            <i class="fas fa-sign-out-alt"></i>
+                            Déconnexion
+                        </a>
+                    </li>
+                {% else %}
+                    {# Utilisateur non connecté, afficher "Connexion" et "Inscription" #}
+                    <li class="nav-item">
+                        <a class="border rounded py-1 px-3 nav-link d-flex align-items-center"
+                           href="{{ path('app_login') }}">
+                            <i class="fas fa-sign-in-alt"></i>
+                            Connexion
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="border rounded py-1 px-3 nav-link d-flex align-items-center"
+                           href="{{ path('app_register') }}">
+                            <i class="fas fa-user-plus"></i>
+                            Inscription
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+
+</header>
+<nav class="navbar navbar-expand-lg navbar-light fixed-top bg-light mt-5">
+    <div class="container-fluid">
+        <div class="collapse navbar-collapse" id="navbarNav">
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                {% if is_granted('ROLE_ADMIN') %}
+                    {# Afficher les éléments de navigation pour l'administrateur #}
+                    <ul class="navbar-nav mx-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Tableau de bord</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Catégories</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Produits</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('app_user_index') }}">Utilisateurs</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Historiques</a>
+                        </li>
+                    </ul>
+                {% else %}
+                    {# Afficher les éléments de navigation pour les utilisateurs non-admin #}
+                    <ul class="navbar-nav mx-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('app_home') }}">Accueil</a>
+                        </li>
+                        <li class="nav-item">
+                            <form class="d-flex" role="search">
+                                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                                <button class="btn btn-outline-success" type="submit">Search</button>
+                            </form>
+                        </li>
+                    </ul>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+</nav>
+{# read and display just one flash message type #}
+{% for message in app.flashes('notice') %}
+    <div class="flash-notice">
+        {{ message }}
+    </div>
+{% endfor %}
+
+{# read and display several types of flash messages #}
+{% for label, messages in app.flashes(['success', 'warning']) %}
+    {% for message in messages %}
+        <div class="flash-{{ label }}">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endfor %}
+
+{# read and display all flash messages #}
+{% for label, messages in app.flashes %}
+    {% for message in messages %}
+        <div class="flash-{{ label }}">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endfor %}
+<main class="container mt-5"> {% block body %}{% endblock %}</main>
+{# Include the cart_modal.html.twig file #}
+{% include '/cart/cart_modal.html.twig' %}
+<footer class="mt-4 py-3 bg-light">
+    <div class="container text-center">
+        <p>©
+            {{ "now"|date("Y") }}
+            E-Vanga. Tous droits réservés.</p>
+    </div>
+</footer>
+<!-- Inclure les fichiers JavaScript de Bootstrap 5.3 via le CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

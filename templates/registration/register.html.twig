@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container mt-4">
+        <h1 class="mb-4">Inscription</h1>
+
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                {{ form_start(form) }}
+                <div class="mb-3">
+                    {{ form_label(form.email, 'Adresse e-mail', {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
+                </div>
+                <div class="mb-3">
+                    {{ form_label(form.password, 'Mot de passe', {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(form.password, {'attr': {'class': 'form-control'}}) }}
+                </div>
+                <div class="mb-3">
+                    {{ form_label(form.nom, 'Nom', {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(form.nom, {'attr': {'class': 'form-control'}}) }}
+                </div>
+                <div class="mb-3">
+                    {{ form_label(form.prenoms, 'Prénoms', {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(form.prenoms, {'attr': {'class': 'form-control'}}) }}
+                </div>
+                <div class="mb-3">
+                    {{ form_label(form.num_telephone, 'Numéro de téléphone', {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(form.num_telephone, {'attr': {'class': 'form-control'}}) }}
+                </div>
+
+                {# Ajouter l'option render_rest pour exclure le bouton généré par défaut #}
+                {{ form_rest(form, {'render_rest': false}) }}
+
+                <button type="submit" class="btn btn-primary">S'inscrire</button>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tableau de bord{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <h1>Tableau de bord</h1>
+        <div class="row">
+            <!-- Autres cartes déjà existantes ici -->
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Nombre de produits en stock</h5>
+                        <p class="card-text">{{ nombreProduitsEnStock }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Nombre de produits vendus</h5>
+                        <p class="card-text">{{ nombreProduitsVendus }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,75 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Commande
+{% endblock %}
+
+{% block body %}
+	<div class="container mt-4">
+		<h1>Commande</h1>
+
+		<table class="table table-bordered">
+			<tbody>
+				<tr>
+					<th>Id</th>
+					<td>{{ commande.id }}</td>
+				</tr>
+				<tr>
+					<th>Total</th>
+					<td>{{ commande.total }}</td>
+				</tr>
+				<tr>
+					<th>Date</th>
+					<td>{{ commande.date ? commande.date|date('Y-m-d H:i:s') : '' }}</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<h2>Produits commandés :</h2>
+		<table class="table table-bordered">
+			<thead>
+				<tr>
+                    <th></th>
+					<th>Produit</th>
+					<th>Quantité</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for produitCommande in commande.produitCommande %}
+					<tr>
+                        <td><img src="{{ produitCommande.produit.image }}" style="max-height: 80px; max-width: 80px;" alt="Product Image"></td>
+						<td>{{ produitCommande.produit.nom }}</td>
+						<td>{{ produitCommande.quantite }}</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+
+		<h2>Détails de l'utilisateur :</h2>
+		<table class="table table-bordered">
+			<tbody>
+				<tr>
+					<th>Nom</th>
+					<td>{{ userCommande.nom }}</td>
+				</tr>
+				<tr>
+					<th>Prénoms</th>
+					<td>{{ userCommande.prenoms }}</td>
+				</tr>
+				<tr>
+					<th>Email</th>
+					<td>{{ userCommande.email }}</td>
+				</tr>
+				<tr>
+					<th>Numéro de téléphone</th>
+					<td>{{ userCommande.numTelephone }}</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<a href="{{ path('app_commande_index') }}" class="btn btn-secondary">Retour à la liste</a>
+
+		<a href="{{ path('app_commande_edit', {'id': commande.id}) }}" class="btn btn-primary">Modifier</a>
+
+		{{ include('commande/_delete_form.html.twig') }}
+	</div>
+{% endblock %}

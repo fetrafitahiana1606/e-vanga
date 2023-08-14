@@ -1,0 +1,29 @@
+security:
+    password_hashers:
+        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
+    providers:
+        # Utilise le fournisseur de données utilisateurs de Doctrine
+        users_in_database:
+            entity:
+                class: App\Entity\User # Remplace par la classe réelle de ton entité User
+                property: email # Propriété utilisée pour l'authentification (par exemple, email ou username)
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        main:
+            lazy: true
+            provider: users_in_database # Utilise le fournisseur de données utilisateurs de Doctrine
+            form_login:
+                login_path: app_login # Chemin vers la route de connexion
+                check_path: app_login # Chemin vers la route de vérification des informations d'identification
+                success_handler: App\Security\LoginSuccessHandler # Utilise le gestionnaire de succès personnalisé
+                failure_handler: App\Security\LoginFailureHandler # Utilise le gestionnaire d'échec personnalisé
+                always_use_default_target_path: false # Désactive la redirection vers default_target_path
+
+            logout:
+                path: app_logout # Chemin vers la route de déconnexion (définie dans SecurityController)
+                target: app_login # Redirige vers la page "app_login" après la déconnexion
+            # Autres configurations du firewall...
+
+    # Autres configurations de sécurité...

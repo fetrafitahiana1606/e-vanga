@@ -1,0 +1,78 @@
+<!-- Le modal pour afficher le contenu du panier -->
+<div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="cartModalLabel">Mon Panier</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div
+				class="modal-body">
+				<!-- Insérez ici le contenu de votre panier d'achat -->
+				<h1>Panier d'achat</h1>
+				{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+					{% if items | length > 0 %}
+						<table class="table">
+							<thead>
+								<tr>
+									<th></th>
+									<th>Produit</th>
+									<th>Prix</th>
+									<th>Qté</th>
+									<th colspan="2">Total</th>
+									{# Use colspan="2" to span two columns for Total and {{ total }} #}
+								</tr>
+							</thead>
+							<tbody>
+								{% for item in items %}
+									<tr>
+										<td>
+											{# Display the resized image in the table cell #}
+											<img src="{{ item.produit.image }}" style="max-height: 50px; max-width: 50px;" alt="Product Image">
+										</td>
+										<td>{{ item.produit.nom }}</td>
+										<td>{{ item.produit.prix }}
+											€</td>
+										{# <td>{{ item.quantite }}</td> #}
+										<td class="qty"><input type="number" class="form-control" id="input1" value="{{ item.quantite }}" min="1"></td>
+										<td>{{ item.produit.prix * item.quantite }}</td>
+										<td>
+											<a href="{{ path('app_cart_remove', {'id': item.produit.id}) }}" class="btn btn-danger btn-sm">
+												<i class="fas fa-trash"></i>
+											</a>
+										</td>
+									</tr>
+								{% endfor %}
+							</tbody>
+							<tfoot>
+								<tr>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td>
+										<h4>Total</h4>
+									</td>
+									{# Use colspan="3" to span three columns for Total and {{ total }} #}
+									<td>{{ total }}€</td>
+									<td></td>
+								</tr>
+							</tfoot>
+						</table>
+
+
+					{% else %}
+						<p>Surprise c'est vide!
+						</p>
+						<p>
+						{% endif %}
+					{% endif %}
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+					<a href="{{ path('app_commande_new') }}" type="button" class="btn btn-primary">Valider la commande</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>

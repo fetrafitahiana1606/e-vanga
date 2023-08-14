@@ -1,0 +1,14 @@
+
+    {{ form_start(form) }}
+    {{ form_row(form.user) }}
+    
+    {# Afficher les éléments existants de la collection produitCommande #}
+    {% for produitCommandeForm in form.produitCommande %}
+        {{ form_row(produitCommandeForm) }}
+    {% endfor %}
+    
+    {# Champ pour ajouter de nouveaux éléments à la collection produitCommande #}
+    {{ form_row(form.produitCommande.vars.prototype) }}
+
+    <button class="btn">Save</button>
+    {{ form_end(form) }}

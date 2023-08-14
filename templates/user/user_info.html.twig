@@ -1,0 +1,35 @@
+{# templates/user/user_info.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Informations de l'utilisateur
+{% endblock %}
+
+{% block body %}
+
+	<div class="container mt-4">
+		<div class="row justify-content-center mt-5">
+			<div
+				class="col-md-6">
+				<!-- Utiliser le card de Bootstrap pour le profil de l'utilisateur -->
+				<div class="card">
+					<div class="card-body text-center">
+						<i class="fas fa-user-circle fa-7x text-primary mb-4"></i>
+						<h1 class="card-title">{{ user.nom }}
+							{{user.prenoms }}</h1>
+						<p class="card-text">Email :
+							{{ user.email }}</p>
+						<p class="card-text">Téléphone :
+							{{ user.numTelephone }}</p>
+						<p class="card-text">Type de compte:
+							<span class="badge bg-primary">{{ user.roles[0] }}</span>
+						</p>
+						<button class="btn btn-outline-danger">
+							<i class="fas fa-sign-out-alt me-2"></i>Déconnexion</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}
